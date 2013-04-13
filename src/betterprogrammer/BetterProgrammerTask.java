@@ -11,6 +11,142 @@ import java.util.Set;
 
 public class BetterProgrammerTask {
 
+	public static List<Integer> getPrimeNumbers(int from, int to) {
+        /*
+          Please implement this method to
+          return a list of all prime numbers in the given range (inclusively).
+          A prime number is a natural number that has exactly two distinct natural number divisors, which are 1 and the prime number itself.
+          The first prime numbers are: 2, 3, 5, 7, 11, 13
+         */
+		List<Integer> primos = new ArrayList<Integer>();
+		from = from<2?2:from;
+		boolean primo = true;
+		for(int i = from; i<=to;i++){
+			for(int j = 2;j<i;j++){
+				if(i%j==0){
+					primo = false;
+					break;
+				}
+			}
+			if(primo){
+				primos.add(i);
+			}else{
+				primo=true;
+			}
+		}
+		return primos;
+    }
+	
+	public static int countAlmostPrimeNumbers(int from, int to) {
+        /*
+          A prime number is a natural number that has exactly two distinct natural number divisors,
+          which are 1 and the prime number itself.
+          The first prime numbers are: 2, 3, 5, 7, 11, 13.
+
+          Almost prime numbers are the non-prime numbers
+          which are divisible by only a single prime number.
+
+          Please implement this method to
+          return the number of almost prime numbers within the given range (inclusively).
+         */
+		List<Integer> primos = getPrimeNumbers(from, to);
+		int cuenta = 0;
+		int cuentaRet = 0;
+		for(int i=from;i<=to;i++){
+			for(Integer primo : primos){
+				if(i%primo==0){
+					cuenta++;
+				}
+			}
+			if(cuenta == 1){
+				cuentaRet++;
+			}else{
+				cuenta=0;
+			}
+		}
+		return cuentaRet;
+    }
+	
+	 public static Change getCorrectChange(int cents) {
+	        /*
+	          Please implement this method to
+	          take cents as a parameter
+	          and return an equal amount in dollars and coins using the minimum number of
+	          coins possible.
+	          For example: 164 cents = 1 dollar, 2 quarters, 1 dime and 4 cents.
+	          Return null if the parameter is negative.
+	         */
+		if(cents <0){
+			return null;
+		}
+		if(cents == 0){
+			return new Change(0, 0, 0, 0, 0);
+		}
+		
+	 	int dollars = 0;
+	 	if(cents >=100){
+	 		dollars = cents/100;
+	 	}
+	 	int modulo100 = cents%100;
+	 	int modulo25 = modulo100%25;
+	 	int modulo10 = modulo25%10;
+
+	 	int quarters = modulo100/25; 
+		int dimes = modulo25/10;
+		int nickels = modulo10/5;
+		int centavos = modulo10%5;
+		return new Change(dollars,quarters,dimes,nickels,centavos);
+	 }
+
+
+	    // Please do not change this class
+	    static class Change {
+	        private final int _dollars;
+	        private final int _quarters; //25 cents
+	        private final int _dimes; // 10 cents
+	        private final int _nickels; // 5 cents
+	        private final int _cents; // 1 cent
+
+
+	        public Change(int dollars, int quarters, int dimes, int nickels, int cents) {
+	            _dollars = dollars;
+	            _quarters = quarters;
+	            _dimes = dimes;
+	            _nickels = nickels;
+	            _cents = cents;
+	        }
+
+
+	        public int getDollars() {
+	            return _dollars;
+	        }
+
+
+	        public int getQuarters() {
+	            return _quarters;
+	        }
+
+
+	        public int getDimes() {
+	            return _dimes;
+	        }
+
+
+	        public int getNickels() {
+	            return _nickels;
+	        }
+
+
+	        public int getCents() {
+	            return _cents;
+	        }
+	        
+	        @Override
+	        public String toString() {
+	        	return _dollars + " dollars " + _quarters + " quarters " + _nickels + " nickels " + _cents + " cents";
+	        }
+	    }
+	
 	// Please do not change this interface
     public static interface Node {
         int getValue();
@@ -367,6 +503,13 @@ public class BetterProgrammerTask {
 //    	System.out.println(reverseWords("Hola nacho"));
 //    	System.out.println(getSumOfNumbers("12 some text 3  7"));
 //    	System.out.println(capitalizeFirstLetters(" hola   nacho como  and as "));
-    	System.out.println(countWords(" hola   nacho como  and as "));
+//    	System.out.println(countWords(" hola   nacho como  and as "));
+//    	System.out.println(getCorrectChange(632));
+//    	System.out.println(countAlmostPrimeNumbers(0,100));
+    	
+//    	List<Integer> primos = getPrimeNumbers(0, 14);
+//    	for(Integer i : primos){
+//    		System.out.println(i);
+//    	}
     }
 }
