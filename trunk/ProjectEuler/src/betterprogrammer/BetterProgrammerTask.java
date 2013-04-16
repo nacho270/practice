@@ -529,6 +529,34 @@ public class BetterProgrammerTask {
 		return res;
 	}
 
+	public static String getBits( int value )
+	   {
+	      int displayMask = 1 << 31;
+	      StringBuffer buf = new StringBuffer( 35 );
+
+	      for ( int c = 1; c <= 32; c++ ) {
+	         buf.append(
+	            ( value & displayMask ) == 0 ? '0' : '1' );
+	         value <<= 1;
+
+	         if ( c % 8 == 0 )
+	            buf.append( ' ' );
+	      }
+
+	      return buf.toString();
+	   }
+	
+	public static String getBinaryRepresentation(int n) {
+		String res = "";
+		while (n > 0) {
+			res = (char) ('0' + n % 2) + res;
+			n /= 2;
+		}
+		if (res.length() == 0)
+			res = "0";
+		return res;
+	}
+	
 	public static void main(String[] args) {
 		//    	int[] a = new int[]{-1,3,0,1,0,5};
 		//    	System.out.println(getClosestToZero(a));
@@ -556,5 +584,6 @@ public class BetterProgrammerTask {
 		//    	for(Integer i : primos){
 		//    		System.out.println(i);
 		//    	}
+		System.out.println(getBits(5));
 	}
 }
