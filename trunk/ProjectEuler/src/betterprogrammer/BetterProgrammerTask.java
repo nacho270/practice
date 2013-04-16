@@ -440,11 +440,10 @@ public class BetterProgrammerTask {
 
 			 Please implement this method to conform to the above description of WriteOnceMap.
 			*/
-			if (get(key) == null) {
-				put(key, value);
-			} else {
+			if (containsKey(key)){
 				throw new IllegalArgumentException("");
 			}
+			put(key, value);
 			return value;
 		}
 
@@ -457,15 +456,12 @@ public class BetterProgrammerTask {
 			 (2) throw IllegalArgumentException and leave this map intact
 			 if the parameter already contains some keys from this map.
 			*/
-			Set<K> keySet2 = new HashSet<K>(this.keySet());
-			Set<K> keySet3 = new HashSet<K>(m.keySet());
-			keySet3.removeAll(keySet2);
-			if (keySet3.size() != m.keySet().size()) {
-				throw new IllegalArgumentException("");
+			for (K key : m.keySet()){
+	            if (containsKey(key)){
+	            	throw new IllegalArgumentException("");
+	            }
 			}
-			for (K key : m.keySet()) {
-				put(key, m.get(key));
-			}
+			putAll(m);
 		}
 	}
 
