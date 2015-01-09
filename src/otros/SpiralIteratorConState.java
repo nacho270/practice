@@ -25,7 +25,7 @@ public class SpiralIteratorConState<T> implements Iterator<T> {
 	
 	@Override
 	public boolean hasNext() {
-		return !(state instanceof StateStop);
+		return state != null;
 	}
 
 	@Override

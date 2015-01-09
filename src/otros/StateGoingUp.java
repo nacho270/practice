@@ -14,7 +14,7 @@ public class StateGoingUp<T> extends State<T> {
 			iterator.setxIndex(iterator.getxIndex() +1 );
 			iterator.setUpperBoundY(iterator.getUpperBoundY() +1);
 		}else{
-			iterator.setState(new StateStop<T>(iterator));
+			iterator.setState(null);
 		}	
 	}
 
