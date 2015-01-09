@@ -13,7 +13,7 @@ public class StateGoingLeft<T> extends State<T> {
 			iterator.setyIndex(iterator.getyIndex()-1);
 			iterator.setLeftBoundX(iterator.getLeftBoundX()+1);
 		}else{
-			iterator.setState(new StateStop<T>(iterator));
+			iterator.setState(null);
 		}
 	}
 

@@ -13,7 +13,7 @@ public class StateGoingRight<T> extends State<T>{
 			iterator.setRightBoundX(iterator.getRightBoundX()-1);
 			iterator.setyIndex(iterator.getyIndex()+1);
 		}else{
-			iterator.setState(new StateStop<T>(iterator));
+			iterator.setState(null);
 		}
 	}
 
