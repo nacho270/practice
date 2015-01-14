@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import betterprogrammer.SolucionesBetterProgrammer.Node;
-
+@SuppressWarnings("unused")
 public class BetterProgrammerTask {
 
 	public static Set<Object> getIntersection1(Set<Object> a, Set<Object> b) {
@@ -146,7 +145,7 @@ public class BetterProgrammerTask {
     	return lista.get(lista.size()-1);
     }
     
-    private static class Nodo implements ListNode{
+	private static class Nodo implements ListNode{
     	int item;
     	private ListNode next;
     	
