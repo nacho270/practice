@@ -2,11 +2,10 @@ package bp2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import betterprogrammer.SolucionesBetterProgrammer.Node;
 
 @SuppressWarnings("unused")
 public class BetterProgrammerTask {
@@ -59,6 +58,20 @@ public class BetterProgrammerTask {
 		Arrays.sort(res);
 		return res;
     }
+	
+	 public static void sortIgnoringSpaces(String[] a) {
+		/*
+		 * Please implement this method to sort a given array of Strngs in
+		 * alphabetical order ignoring spaces (' ' symbols) within the strings.
+		 */
+		Arrays.sort(a, new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
+		});
+	}
 	
 	public static int countWords1(String s) {
 		int res = 0;
@@ -128,7 +141,7 @@ public class BetterProgrammerTask {
         void setNext(ListNode next);
     }
 
-    public static ListNode reverse(ListNode node) {
+    public static ListNode reverse2(ListNode node) {
         /*
           Please implement this method to
           reverse a given linked list.
@@ -146,6 +159,17 @@ public class BetterProgrammerTask {
     	lista.get(0).setNext(null);
     	return lista.get(lista.size()-1);
     }
+    
+    public static ListNode reverse(ListNode node) {
+		ListNode prev = null;
+		while (node != null) {
+			ListNode next = node.getNext();
+			node.setNext(prev);
+			prev = node;
+			node = next;
+		}
+		return prev;
+	}
     
 	private static class Nodo implements ListNode{
     	int item;
@@ -379,6 +403,19 @@ public class BetterProgrammerTask {
 			}
 		return x1 + x2;
     }
+	
+	public static Object[] reverseArray(Object[] a) {
+        /*
+          Please implement this method to
+          return a new array where the order of elements has been reversed from the original
+          array.
+         */
+		Object[] oa = new Object[a.length];
+		for(int i = a.length-1;i>=0;i--){
+			oa[a.length-i-1] = a[i];
+		}
+		return oa;
+    }
     
 	public static void main(String[] args) {
 		//System.out.println(countWords("hoa como, te va  hj aredsa es e aseas eas e e e ae aseasease         jiojiojiojio"));
@@ -387,6 +424,13 @@ public class BetterProgrammerTask {
 //		System.out.println(getSumOfNumbers("12 some  d4        text 3  7"));
 		//System.out.println(countWaysToProduceGivenAmountOfMoney(11));
 		//System.out.println(countPowerfulNumbers(1, 40));
+		
+//		Object[] oa = reverseArray(new Object[]{1,2,3,4,5,6,7});
+//		for(Object o : oa){
+//			System.out.println(o);
+//		}
+		
+		
 //		//root
 //		TreeNode tn1 = new TreeNode();
 //		tn1.value=1;
@@ -462,30 +506,30 @@ public class BetterProgrammerTask {
 //			System.out.println(o);
 //		}
 		
-//		Nodo n1 = new Nodo();
-//		n1.item = 1;
-//		
-//		Nodo n2 = new Nodo();
-//		n2.item = 2;
-//		Nodo n3 = new Nodo();
-//		n3.item = 3;
-//		Nodo n4 = new Nodo();
-//		n4.item = 4;
-//		Nodo n5 = new Nodo();
-//		n5.item = 5;
-//		Nodo n6 = new Nodo();
-//		n6.item = 6;
-//		n1.setNext(n2);
-//		n2.setNext(n3);
-//		n3.setNext(n4);
-//		n4.setNext(n5);
-//		n5.setNext(n6);
-//		
-//		ListNode reverse = reverse(n1);
-//		ListNode index = reverse;
-//		while(index.getNext()!=null){
-//			System.out.println(index.getItem());
-//			index = index.getNext();
-//		}
+		Nodo n1 = new Nodo();
+		n1.item = 1;
+		
+		Nodo n2 = new Nodo();
+		n2.item = 2;
+		Nodo n3 = new Nodo();
+		n3.item = 3;
+		Nodo n4 = new Nodo();
+		n4.item = 4;
+		Nodo n5 = new Nodo();
+		n5.item = 5;
+		Nodo n6 = new Nodo();
+		n6.item = 6;
+		n1.setNext(n2);
+		n2.setNext(n3);
+		n3.setNext(n4);
+		n4.setNext(n5);
+		n5.setNext(n6);
+		
+		ListNode reverse = reverse(n1);
+		ListNode index = reverse;
+		while(index!=null){
+			System.out.println(index.getItem());
+			index = index.getNext();
+		}
 	}
 }
