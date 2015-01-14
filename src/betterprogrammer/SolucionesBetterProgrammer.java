@@ -2,6 +2,7 @@ package betterprogrammer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -128,6 +129,43 @@ public class SolucionesBetterProgrammer {
 
 	static double cnt, sum;
 
+	private static boolean isSorted(List<Integer> l) {
+        for (int i = 0; i < (l.size() - 1); i++) {
+            if (l.get(i) > l.get(i + 1)) return false;
+        }
+        return true;
+    }
+
+    public static List<Integer> getReversalsToSort(int[] a) {
+        /*
+         You need to sort an array of integers by repeatedly reversing
+         the order of the first several elements of it.
+         For example, to sort [12,13,11,14], you need to  reverse the order of the first two (2)
+         elements and get [13,12,11,14] and then reverse the order of the first three (3)
+         elements and get [11,12,13,14]
+         The method should return the shortest(!) possible list of integers corresponding to the required reversals.
+         For the previous example, given an array [12,13,11,14]
+         the method should return a list with Integers 2 and 3.
+         */
+
+
+        List<Integer> retval = new ArrayList<Integer>();
+        if (a == null || a.length < 2) return retval;
+
+        List<Integer> listA = new ArrayList<Integer>();
+        for (int i : a) {
+            listA.add(i);
+        }
+
+        int cnt = 2;
+        while (!isSorted(listA)) {
+            Collections.reverse(listA.subList(0, cnt));
+            retval.add(cnt++);
+        }
+
+        return retval;
+    }
+	
 	public static int countWaysToProduceGivenAmountOfMoney(int cents) {
 		int[] dp = new int[cents + 1];
 		dp[0] = 1;

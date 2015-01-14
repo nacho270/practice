@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import betterprogrammer.SolucionesBetterProgrammer.Node;
+
 @SuppressWarnings("unused")
 public class BetterProgrammerTask {
 
@@ -299,13 +301,92 @@ public class BetterProgrammerTask {
 				dp[i + x] += dp[i];
 		return dp[cents];
     }
+	
+	public static List<Integer> getPrimeNumbers(int from, int to) {
+		List<Integer> res = new ArrayList<Integer>();
+		for (int num = from; num <= to; ++num) {
+			boolean isPrime = true;
+			for (int i = 2; i <= num / 2; ++i)
+				if (num % i == 0) {
+					isPrime = false;
+					break;
+				}
+			if (isPrime)
+				res.add(num);
+		}
+		return res;
+	}
+	
+	public static int countPowerfulNumbers(int from, int to) {
+        /*
+          A powerful number is a positive integer m that for every prime number p dividing m, p*p also divides m.
+
+          (a prime number (or a prime) is a natural number that has exactly two (distinct) natural number divisors,
+          which are 1 and the prime number itself, the first prime numbers are: 2, 3, 5, 7, 11, 13, ...)
+
+          The first powerful numbers are: 1, 4, 8, 9, 16, 25, 27, 32, 36, ...
+
+          Please implement this method to
+          return the count of powerful numbers in the range [from..to] inclusively.
+         */
+		int count =0 ;
+		for(int m = from; m<=to;m++){
+			List<Integer> primeNumbers = getPrimeNumbers(2, m);
+			for(Integer pI : primeNumbers){
+				int p = pI.intValue();
+				if(p<1){
+					continue;
+				}
+				int pp = p * p;
+				if(m%p==0 && m%pp==0){
+					System.out.println(m);
+					count++;
+				}
+			}
+		}
+		
+		return count;
+    }
+	
+	private static int suma=0;
+	private static int cont=0;
+	
+	public static double getAverage(Node root) {
+		cont = suma = 0;
+		average(root);
+		return suma / cont;
+	}
+
+	static void average(Node node) {
+		++cont;
+		suma += node.getValue();
+		for (Node child : node.getChildren())
+			average(child);
+	}
+	
+	public static int sumOfTwoLargestElements(int[] a) {
+        /*
+          Please implement this method to
+          return the sum of the two largest numbers in a given array.
+         */
+		int x1 = Integer.MIN_VALUE, x2 = Integer.MIN_VALUE;
+		for (int x : a)
+			if (x > x1) {
+				x2 = x1;
+				x1 = x;
+			} else if (x > x2) {
+				x2 = x;
+			}
+		return x1 + x2;
+    }
     
 	public static void main(String[] args) {
 		//System.out.println(countWords("hoa como, te va  hj aredsa es e aseas eas e e e ae aseasease         jiojiojiojio"));
 		//System.out.println(countAlmostPrimeNumbers(1, 1000));
 //		System.out.println(countWaysToJump(4));
 //		System.out.println(getSumOfNumbers("12 some  d4        text 3  7"));
-		System.out.println(countWaysToProduceGivenAmountOfMoney(11));
+		//System.out.println(countWaysToProduceGivenAmountOfMoney(11));
+		//System.out.println(countPowerfulNumbers(1, 40));
 //		//root
 //		TreeNode tn1 = new TreeNode();
 //		tn1.value=1;
