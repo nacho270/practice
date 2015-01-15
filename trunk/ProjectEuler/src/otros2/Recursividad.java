@@ -1,5 +1,6 @@
 package otros2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recursividad {
@@ -7,11 +8,45 @@ public class Recursividad {
 	private static int suma=0;
 	private static int cont=0;
 	
+	public static interface Node {
+		int getValue();
+		List<Node> getChildren();
+	}
+	
 	public static double promedio(List<Integer> lista){
 		suma=suma(lista,cont);
 		return suma/cont;
 	}
 	
+	
+	static void sumaNodoConFor(Node node) {
+		suma += node.getValue();
+		for (Node child : node.getChildren())
+			sumaNodoConFor(child);
+	}
+
+	public static int suma(Node root){
+		return sumaNode(root,0);
+	}
+	
+	private static int sumaNode(Node nodo, int index) {
+		System.out.println(nodo.getValue());
+		int suma = nodo.getValue();
+		if(nodo.getChildren()!=null && !nodo.getChildren().isEmpty()){
+			return suma + sumaHijos(nodo.getChildren(),0);
+		}
+		return suma;
+	}
+
+	private static int sumaHijos(List<Node> children, int index) {
+		if(index<children.size() && !children.isEmpty()){
+			//System.out.println(children.get(index).getValue());
+			//return children.get(index).getValue() + sumaHijos(children.get(index).getChildren(), index++);
+			return sumaNode(children.get(index), index++);
+		}
+		return 0;
+	}
+
 	public static int suma(List<Integer> lista, int index){
 		return cont<lista.size()?lista.get(cont++) + suma(lista,cont):0;
 	}
@@ -179,6 +214,33 @@ public class Recursividad {
 		return true;
 	}
 
+private static class TreeNode implements Node{
+    	
+    	private int value;
+    	private List<Node> children;
+    	
+    	public TreeNode() {
+    		children = new ArrayList<Node>();
+    	}
+    	
+		@Override
+		public int getValue() {
+			return value;
+		}
+
+		@Override
+		public List<Node> getChildren() {
+			return children;
+		}
+		
+		@Override
+		public String toString() {
+			return ""+value;
+		}
+    	
+    }
+
+	
 	public static void main(String[] args) {
 		//System.out.println(promedio(Arrays.asList(1,2,3,4,5,6,7)));
 		//System.out.println(countPairs("AxAxAxA"));
@@ -201,7 +263,62 @@ public class Recursividad {
 		//System.out.println(allStar("hola"));
 		//System.out.println(pairStar("xxyy"));
 		//System.out.println(endX("xhixhix"));
-		System.out.println(lucky13(new int[]{0, 2, 3}));
+		//System.out.println(lucky13(new int[]{0, 2, 3}));
+		
+		
+		
+		//root
+		TreeNode tn1 = new TreeNode();
+		tn1.value=1;
+
+		//2 nivel
+		TreeNode tn2 = new TreeNode();
+		tn2.value=22;
+
+		TreeNode tn3 = new TreeNode();
+		tn3.value=23;
+
+		TreeNode tn4 = new TreeNode();
+		tn4.value=24;
+
+		
+		//3 nivel
+		
+		TreeNode tn5 = new TreeNode();
+		tn5.value=35;
+
+		
+		TreeNode tn6 = new TreeNode();
+		tn6.value=36;
+
+		
+		TreeNode tn7 = new TreeNode();
+		tn7.value=37;
+
+		//4 nivel
+		TreeNode tn8 = new TreeNode();
+		tn8.value=38;
+
+		TreeNode tn9 = new TreeNode();
+		tn9.value=39;
+
+
+		tn7.getChildren().add(tn8);
+		tn6.getChildren().add(tn9);
+		
+		tn4.getChildren().add(tn5);
+		tn3.getChildren().add(tn6);
+		tn2.getChildren().add(tn7);
+		
+		tn1.getChildren().add(tn2);
+		tn1.getChildren().add(tn3);
+		tn1.getChildren().add(tn4);
+		
+		int suma2 = suma(tn1);
+		System.out.println("===");
+		System.out.println(suma2);
+		//average(tn1);
+		//System.out.println(suma);
 	}
 
 }
