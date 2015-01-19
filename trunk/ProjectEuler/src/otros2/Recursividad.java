@@ -25,26 +25,14 @@ public class Recursividad {
 			sumaNodoConFor(child);
 	}
 
-	public static int suma(Node root){
-		return sumaNode(root,0);
-	}
-	
-	private static int sumaNode(Node nodo, int index) {
+	private static int suma(Node nodo) {
 		System.out.println(nodo.getValue());
-		int suma = nodo.getValue();
-		if(nodo.getChildren()!=null && !nodo.getChildren().isEmpty()){
-			return suma + sumaHijos(nodo.getChildren(),0);
-		}
-		return suma;
+		return nodo.getValue() + sumaHijos(nodo.getChildren(),0);
 	}
 
 	private static int sumaHijos(List<Node> children, int index) {
-		if(index<children.size() && !children.isEmpty()){
-			//System.out.println(children.get(index).getValue());
-			//return children.get(index).getValue() + sumaHijos(children.get(index).getChildren(), index++);
-			return sumaNode(children.get(index), index++);
-		}
-		return 0;
+		if(children==null || children.isEmpty()) return 0;
+		return index<children.size()?suma(children.get(index++)) + sumaHijos(children,index):0;
 	}
 
 	public static int suma(List<Integer> lista, int index){
