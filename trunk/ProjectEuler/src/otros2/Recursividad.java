@@ -1,7 +1,9 @@
 package otros2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Recursividad {
 
@@ -13,17 +15,38 @@ public class Recursividad {
 		List<Node> getChildren();
 	}
 	
-	public static double promedio(List<Integer> lista){
-		suma=suma(lista,cont);
-		return suma/cont;
-	}
-	
 	static void sumaNodoConFor(Node node) {
 		suma += node.getValue();
 		for (Node child : node.getChildren())
 			sumaNodoConFor(child);
 	}
+	
+	public static Map<Integer, List<Node>> getLevelsMap(Node root) {
+		return innerGetLevels(root, 0, new HashMap<Integer, List<Node>>());
+	}
 
+	private static Map<Integer, List<Node>> innerGetLevels(Node node, int level, Map<Integer, List<Node>> hashMap) {
+		if (hashMap.get(level) == null) {
+			hashMap.put(level, new ArrayList<Node>());
+		}
+		hashMap.get(level).add(node);
+		return getChildrenLevel(node.getChildren(), level + 1, 0, hashMap);
+	}
+
+	private static Map<Integer, List<Node>> getChildrenLevel(List<Node> children, int level, int index, Map<Integer, List<Node>> hashMap) {
+		if (children == null || children.isEmpty()) return hashMap;
+		if (index < children.size()) {
+			hashMap = innerGetLevels(children.get(index), level, hashMap);
+			hashMap = getChildrenLevel(children, level, index+1, hashMap);
+		}
+		return hashMap;
+	}
+
+	public static double promedio(List<Integer> lista){
+		suma=suma(lista,cont);
+		return suma/cont;
+	}
+	
 	private static int suma(Node nodo) {
 		System.out.println(nodo.getValue());
 		return nodo.getValue() + sumaHijos(nodo.getChildren(),0);
@@ -201,7 +224,6 @@ public class Recursividad {
 		return true;
 	}
 
-	@SuppressWarnings("unused")
 	private static class TreeNode implements Node{
     	
     	private int value;
@@ -234,10 +256,6 @@ public class Recursividad {
 	}
 	private static class Nodo2Leaf extends Nodo2{
 		public int value;
-
-		public Nodo2Leaf(int value) {
-			this.value = value;
-		}
 	}
 	
 	public static int findMin(Nodo2 nodo){
@@ -276,75 +294,84 @@ public class Recursividad {
 		//System.out.println(endX("xhixhix"));
 		//System.out.println(lucky13(new int[]{0, 2, 3}));
 		
-//		//root
-//		TreeNode tn1 = new TreeNode();
-//		tn1.value=1;
-//
-//		//2 nivel
-//		TreeNode tn2 = new TreeNode();
-//		tn2.value=22;
-//
-//		TreeNode tn3 = new TreeNode();
-//		tn3.value=23;
-//
-//		TreeNode tn4 = new TreeNode();
-//		tn4.value=24;
-//
-//		
-//		//3 nivel
-//		
-//		TreeNode tn5 = new TreeNode();
-//		tn5.value=35;
-//
-//		
-//		TreeNode tn6 = new TreeNode();
-//		tn6.value=36;
-//
-//		
-//		TreeNode tn7 = new TreeNode();
-//		tn7.value=37;
-//
-//		//4 nivel
-//		TreeNode tn8 = new TreeNode();
-//		tn8.value=38;
-//
-//		TreeNode tn9 = new TreeNode();
-//		tn9.value=39;
-//
-//
-//		tn7.getChildren().add(tn8);
-//		tn6.getChildren().add(tn9);
-//		
-//		tn4.getChildren().add(tn5);
-//		tn3.getChildren().add(tn6);
-//		tn2.getChildren().add(tn7);
-//		
-//		tn1.getChildren().add(tn2);
-//		tn1.getChildren().add(tn3);
-//		tn1.getChildren().add(tn4);
-//		
-//		int suma2 = suma(tn1);
-//		System.out.println("===");
+		//root
+		TreeNode tn1 = new TreeNode();
+		tn1.value=1;
+
+		//2 nivel
+		TreeNode tn2 = new TreeNode();
+		tn2.value=22;
+
+		TreeNode tn3 = new TreeNode();
+		tn3.value=23;
+
+		TreeNode tn4 = new TreeNode();
+		tn4.value=24;
+
+		
+		//3 nivel
+		
+		TreeNode tn5 = new TreeNode();
+		tn5.value=35;
+
+		
+		TreeNode tn6 = new TreeNode();
+		tn6.value=36;
+
+		
+		TreeNode tn7 = new TreeNode();
+		tn7.value=37;
+
+		//4 nivel
+		TreeNode tn8 = new TreeNode();
+		tn8.value=38;
+
+		TreeNode tn9 = new TreeNode();
+		tn9.value=39;
+
+
+		tn7.getChildren().add(tn8);
+		tn6.getChildren().add(tn9);
+		
+		tn4.getChildren().add(tn5);
+		tn3.getChildren().add(tn6);
+		tn2.getChildren().add(tn7);
+		
+		tn1.getChildren().add(tn2);
+		tn1.getChildren().add(tn3);
+		tn1.getChildren().add(tn4);
+		
+		//int suma2 = suma(tn1);
+		//System.out.println("===");
 //		System.out.println(suma2);
 		//average(tn1);
 		//System.out.println(suma);
-		Nodo2Bifurcacion n2Root = new Nodo2Bifurcacion();
-
-		Nodo2Bifurcacion n2L11 = new Nodo2Bifurcacion();
-		Nodo2Leaf n2ValueL111 = new Nodo2Leaf(5);
-		Nodo2Leaf n2ValueL112 = new Nodo2Leaf(3);
-		n2L11.left = n2ValueL111;
-		n2L11.right = n2ValueL112;
 		
-		Nodo2Bifurcacion n2L12 = new Nodo2Bifurcacion();
-		Nodo2Leaf n2ValueL211 = new Nodo2Leaf(7);
-		Nodo2Leaf n2ValueL212 = new Nodo2Leaf(9);
-		n2L12.left=n2ValueL211;
-		n2L12.right=n2ValueL212;
+		Map<Integer, List<Node>> levelsMap = getLevelsMap(tn1);
+		for(Integer i : levelsMap.keySet()){
+			System.out.println(i);
+			for(Node n : levelsMap.get(i)){
+				System.out.println("\t" + n);
+			}
+		}
 		
-		n2Root.left = n2L11;
-		n2Root.right = n2L12;
-		System.out.println(findMin(n2Root));
+//		Nodo2Bifurcacion n2Root = new Nodo2Bifurcacion();
+//
+//		Nodo2Bifurcacion n2L11 = new Nodo2Bifurcacion();
+//		Nodo2Leaf n2ValueL111 = new Nodo2Leaf(5);
+//		Nodo2Leaf n2ValueL112 = new Nodo2Leaf(3);
+//		n2L11.left = n2ValueL111;
+//		n2L11.right = n2ValueL112;
+//		
+//		Nodo2Bifurcacion n2L12 = new Nodo2Bifurcacion();
+//		Nodo2Leaf n2ValueL211 = new Nodo2Leaf(7);
+//		Nodo2Leaf n2ValueL212 = new Nodo2Leaf(9);
+//		n2L12.left=n2ValueL211;
+//		n2L12.right=n2ValueL212;
+//		
+//		n2Root.left = n2L11;
+//		n2Root.right = n2L12;
+//		System.out.println(findMin(n2Root));
 	}
 
 }
