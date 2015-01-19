@@ -347,13 +347,13 @@ public class Recursividad {
 		//average(tn1);
 		//System.out.println(suma);
 		
-		Map<Integer, List<Node>> levelsMap = getLevelsMap(tn1);
-		for(Integer i : levelsMap.keySet()){
-			System.out.println(i);
-			for(Node n : levelsMap.get(i)){
-				System.out.println("\t" + n);
-			}
-		}
+//		Map<Integer, List<Node>> levelsMap = getLevelsMap(tn1);
+//		for(Integer i : levelsMap.keySet()){
+//			System.out.println(i);
+//			for(Node n : levelsMap.get(i)){
+//				System.out.println("\t" + n);
+//			}
+//		}
 		
 //		Nodo2Bifurcacion n2Root = new Nodo2Bifurcacion();
 //
