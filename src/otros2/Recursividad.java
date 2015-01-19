@@ -18,7 +18,6 @@ public class Recursividad {
 		return suma/cont;
 	}
 	
-	
 	static void sumaNodoConFor(Node node) {
 		suma += node.getValue();
 		for (Node child : node.getChildren())
@@ -202,7 +201,8 @@ public class Recursividad {
 		return true;
 	}
 
-private static class TreeNode implements Node{
+	@SuppressWarnings("unused")
+	private static class TreeNode implements Node{
     	
     	private int value;
     	private List<Node> children;
@@ -225,10 +225,33 @@ private static class TreeNode implements Node{
 		public String toString() {
 			return ""+value;
 		}
-    	
     }
 
+	private abstract static class Nodo2{}
+	private static class Nodo2Bifurcacion extends Nodo2{
+		public Nodo2 left;
+		public Nodo2 right;
+	}
+	private static class Nodo2Leaf extends Nodo2{
+		public int value;
+
+		public Nodo2Leaf(int value) {
+			this.value = value;
+		}
+	}
 	
+	public static int findMin(Nodo2 nodo){
+		return findMinInternal(nodo, Integer.MAX_VALUE);
+	}
+	
+	private static int findMinInternal(Nodo2 nodo, int minValue) {
+		if(nodo instanceof Nodo2Leaf) return ((Nodo2Leaf)nodo).value < minValue?((Nodo2Leaf)nodo).value:minValue;
+		Nodo2Bifurcacion nBif = (Nodo2Bifurcacion)nodo;
+		int minR = findMinInternal(nBif.right, minValue);
+		int minL = findMinInternal(nBif.left, minValue);
+		return Math.min(minR, minL);
+	}
+
 	public static void main(String[] args) {
 		//System.out.println(promedio(Arrays.asList(1,2,3,4,5,6,7)));
 		//System.out.println(countPairs("AxAxAxA"));
@@ -253,60 +276,75 @@ private static class TreeNode implements Node{
 		//System.out.println(endX("xhixhix"));
 		//System.out.println(lucky13(new int[]{0, 2, 3}));
 		
-		
-		
-		//root
-		TreeNode tn1 = new TreeNode();
-		tn1.value=1;
-
-		//2 nivel
-		TreeNode tn2 = new TreeNode();
-		tn2.value=22;
-
-		TreeNode tn3 = new TreeNode();
-		tn3.value=23;
-
-		TreeNode tn4 = new TreeNode();
-		tn4.value=24;
-
-		
-		//3 nivel
-		
-		TreeNode tn5 = new TreeNode();
-		tn5.value=35;
-
-		
-		TreeNode tn6 = new TreeNode();
-		tn6.value=36;
-
-		
-		TreeNode tn7 = new TreeNode();
-		tn7.value=37;
-
-		//4 nivel
-		TreeNode tn8 = new TreeNode();
-		tn8.value=38;
-
-		TreeNode tn9 = new TreeNode();
-		tn9.value=39;
-
-
-		tn7.getChildren().add(tn8);
-		tn6.getChildren().add(tn9);
-		
-		tn4.getChildren().add(tn5);
-		tn3.getChildren().add(tn6);
-		tn2.getChildren().add(tn7);
-		
-		tn1.getChildren().add(tn2);
-		tn1.getChildren().add(tn3);
-		tn1.getChildren().add(tn4);
-		
-		int suma2 = suma(tn1);
-		System.out.println("===");
-		System.out.println(suma2);
+//		//root
+//		TreeNode tn1 = new TreeNode();
+//		tn1.value=1;
+//
+//		//2 nivel
+//		TreeNode tn2 = new TreeNode();
+//		tn2.value=22;
+//
+//		TreeNode tn3 = new TreeNode();
+//		tn3.value=23;
+//
+//		TreeNode tn4 = new TreeNode();
+//		tn4.value=24;
+//
+//		
+//		//3 nivel
+//		
+//		TreeNode tn5 = new TreeNode();
+//		tn5.value=35;
+//
+//		
+//		TreeNode tn6 = new TreeNode();
+//		tn6.value=36;
+//
+//		
+//		TreeNode tn7 = new TreeNode();
+//		tn7.value=37;
+//
+//		//4 nivel
+//		TreeNode tn8 = new TreeNode();
+//		tn8.value=38;
+//
+//		TreeNode tn9 = new TreeNode();
+//		tn9.value=39;
+//
+//
+//		tn7.getChildren().add(tn8);
+//		tn6.getChildren().add(tn9);
+//		
+//		tn4.getChildren().add(tn5);
+//		tn3.getChildren().add(tn6);
+//		tn2.getChildren().add(tn7);
+//		
+//		tn1.getChildren().add(tn2);
+//		tn1.getChildren().add(tn3);
+//		tn1.getChildren().add(tn4);
+//		
+//		int suma2 = suma(tn1);
+//		System.out.println("===");
+//		System.out.println(suma2);
 		//average(tn1);
 		//System.out.println(suma);
+		Nodo2Bifurcacion n2Root = new Nodo2Bifurcacion();
+
+		Nodo2Bifurcacion n2L11 = new Nodo2Bifurcacion();
+		Nodo2Leaf n2ValueL111 = new Nodo2Leaf(5);
+		Nodo2Leaf n2ValueL112 = new Nodo2Leaf(3);
+		n2L11.left = n2ValueL111;
+		n2L11.right = n2ValueL112;
+		
+		Nodo2Bifurcacion n2L12 = new Nodo2Bifurcacion();
+		Nodo2Leaf n2ValueL211 = new Nodo2Leaf(7);
+		Nodo2Leaf n2ValueL212 = new Nodo2Leaf(9);
+		n2L12.left=n2ValueL211;
+		n2L12.right=n2ValueL212;
+		
+		n2Root.left = n2L11;
+		n2Root.right = n2L12;
+		System.out.println(findMin(n2Root));
 	}
 
 }
