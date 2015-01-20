@@ -1,10 +1,12 @@
 package otros2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class Recursividad {
 
 	private static int suma=0;
@@ -15,7 +17,7 @@ public class Recursividad {
 		List<Node> getChildren();
 	}
 	
-	static void sumaNodoConFor(Node node) {
+	public static void sumaNodoConFor(Node node) {
 		suma += node.getValue();
 		for (Node child : node.getChildren())
 			sumaNodoConFor(child);
@@ -61,6 +63,27 @@ public class Recursividad {
 		return cont<lista.size()?lista.get(cont++) + suma(lista,cont):0;
 	}
 	
+	public static int findMax(List<Integer> lista){
+		return findMax2(lista,0,Integer.MIN_VALUE);
+	}
+	
+	private static int findMax2(List<Integer> lista, int index, int tempMaxValue) {
+		int value = lista.get(index++);
+		return index<lista.size()?findMax2(lista,index, Math.max(tempMaxValue,value)):tempMaxValue;
+	}
+	
+	public static int findTreeHeight(Node root){
+		return 1 + findTreeHeightChildren(root.getChildren(),0,Integer.MIN_VALUE); 
+	}
+	
+	private static int findTreeHeightChildren(List<Node> children, int index, int tempMaxValue){
+		if(children == null || children.isEmpty()) return 0;
+		if(index<children.size()){
+			return findTreeHeightChildren(children,index+1,Math.max(tempMaxValue, findTreeHeight(children.get(index))));
+		}
+		return tempMaxValue;
+	}
+
 	public static int fibonacci(int n) {
 		if(n==0) return 0;
 		if(n==1 || n==2) return 1;
@@ -229,7 +252,7 @@ public class Recursividad {
     	private int value;
     	private List<Node> children;
     	
-    	public TreeNode() {
+		public TreeNode() {
     		children = new ArrayList<Node>();
     	}
     	
@@ -294,7 +317,7 @@ public class Recursividad {
 		//System.out.println(endX("xhixhix"));
 		//System.out.println(lucky13(new int[]{0, 2, 3}));
 		
-		//root
+//		root
 		TreeNode tn1 = new TreeNode();
 		tn1.value=1;
 
@@ -310,7 +333,6 @@ public class Recursividad {
 
 		
 		//3 nivel
-		
 		TreeNode tn5 = new TreeNode();
 		tn5.value=35;
 
@@ -329,7 +351,18 @@ public class Recursividad {
 		TreeNode tn9 = new TreeNode();
 		tn9.value=39;
 
+		//5 nivel
+		TreeNode tn10 = new TreeNode();
+		tn10.value=40;
+		
+		//6 nivel
+		TreeNode tn11 = new TreeNode();
+		tn11.value=41;
 
+		tn10.getChildren().add(tn11);
+		
+		tn9.getChildren().add(tn10);
+		
 		tn7.getChildren().add(tn8);
 		tn6.getChildren().add(tn9);
 		
@@ -340,6 +373,8 @@ public class Recursividad {
 		tn1.getChildren().add(tn2);
 		tn1.getChildren().add(tn3);
 		tn1.getChildren().add(tn4);
+		
+		System.out.println(findTreeHeight(tn1));
 		
 		//int suma2 = suma(tn1);
 		//System.out.println("===");
@@ -372,6 +407,8 @@ public class Recursividad {
 //		n2Root.left = n2L11;
 //		n2Root.right = n2L12;
 //		System.out.println(findMin(n2Root));
+//		List<Integer> lista = Arrays.asList(1,2,3,5,8,4,5,4,85,488,85,65);
+//		System.out.println(findMax(lista));
 	}
 
 }
