@@ -10,27 +10,21 @@ public class Problemas {
 	public static List<Set<String>> groupAnagrams(List<String> words) {
 	    List<Set<String>> listRet = new ArrayList<Set<String>>();
 	    for(String w : words){
-	        if(listRet.isEmpty()){
-	        	Set<String> set = new HashSet<String>();
+            String sortedString = sortCharacters(w);
+            boolean found = false; 
+            for(Set<String> s : listRet){
+                String sample = sortCharacters(s.iterator().next());
+                if(sample.equals(sortedString)){
+                    s.add(w);
+                    found=true;
+                    break;
+                }
+            }
+            if(!found){
+            	Set<String> set = new HashSet<String>();
 	        	set.add(w);
 	            listRet.add(set);
-	        }else{
-	            String sortedString = sortCharacters(w);
-	            boolean found = false; 
-	            for(Set<String> s : listRet){
-	                String sample = sortCharacters(s.iterator().next());
-	                if(sample.equals(sortedString)){
-	                    s.add(w);
-	                    found=true;
-	                    break;
-	                }
-	            }
-	            if(!found){
-	            	Set<String> set = new HashSet<String>();
-		        	set.add(w);
-		            listRet.add(set);
-	            }    
-	        }
+            }    
 	    }
 	    return listRet;
 	}
