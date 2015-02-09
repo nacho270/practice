@@ -36,12 +36,9 @@ public class Recursividad {
 	}
 
 	private static Map<Integer, List<Node>> getChildrenLevel(List<Node> children, int level, int index, Map<Integer, List<Node>> hashMap) {
-		if (children == null || children.isEmpty()) return hashMap;
-		if (index < children.size()) {
-			hashMap = innerGetLevels(children.get(index), level, hashMap);
-			hashMap = getChildrenLevel(children, level, index+1, hashMap);
-		}
-		return hashMap;
+		if (children == null || children.isEmpty() || index >= children.size()) return hashMap;
+		hashMap = innerGetLevels(children.get(index), level, hashMap);
+		return getChildrenLevel(children, level, index+1, hashMap);
 	}
 
 	public static double promedio(List<Integer> lista){
@@ -247,10 +244,10 @@ public class Recursividad {
 		return true;
 	}
 
-	private static class TreeNode implements Node{
+	public static class TreeNode implements Node{
     	
-    	private int value;
-    	private List<Node> children;
+    	public int value;
+    	public List<Node> children;
     	
 		public TreeNode() {
     		children = new ArrayList<Node>();
@@ -374,7 +371,8 @@ public class Recursividad {
 		tn1.getChildren().add(tn3);
 		tn1.getChildren().add(tn4);
 		
-		System.out.println(findTreeHeight(tn1));
+		//System.out.println(findTreeHeight(tn1));
+		System.out.println(getLevelsMap(tn1));
 		
 		//int suma2 = suma(tn1);
 		//System.out.println("===");
