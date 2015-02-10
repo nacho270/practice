@@ -2,12 +2,14 @@ package otros2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import otros2.Recursividad.Node;
 import otros2.Recursividad.TreeNode;
+import sun.text.normalizer.UBiDiProps;
 
 @SuppressWarnings("unused")
 public class Problemas {
@@ -408,24 +410,26 @@ public class Problemas {
 		return count;
 	}
 	
-	 public static int[] retainPositiveNumbers(int[] a) {
-		 int cont = 0;
-		 for(int n:a){
-			 if(n>0) cont++;
-		 }
-		 int[] ret = new int[cont];
-		 int index = 0;
-		 for(int n:a){
-			 if(n>0) ret[index++]=n;
-		 }
-		 Arrays.sort(ret);
-		 return ret;
-	 }
+	public static int[] retainPositiveNumbers(int[] a) {
+		int cont = 0;
+		for (int n : a) {
+			if (n > 0)
+				cont++;
+		}
+		int[] ret = new int[cont];
+		int index = 0;
+		for (int n : a) {
+			if (n > 0){
+				ret[index++] = n;
+			}
+		}
+		Arrays.sort(ret);
+		return ret;
+	}
 	 
 	public static List<Node> traverseTreeInDepth(Node root) {
 		return innerTransverseInDepth(root, new ArrayList<Node>());
 	}
-	
 
 	private static List<Node> innerTransverseInDepth(Node node, List<Node> list) {
 		list.add(node);
@@ -436,6 +440,29 @@ public class Problemas {
 		if(children == null || children.isEmpty() || index >= children.size()) return list;
 		list = innerTransverseInDepth(children.get(index), list);
 		return innerTransverseInDepthChildren(children, index+1, list);
+	}
+
+	public static List<Node> traverseTreeInWidth(Node root) {
+		List<Node> res = new ArrayList<Node>();
+		res.add(root);
+		for (int i = 0; i < res.size(); i++){
+			for (Node child : res.get(i).getChildren()){
+				res.add(child);
+			}
+		}
+		return res;
+	}
+	
+	public static List<Node> traverseTreeInWidth2(Node root) {
+		ArrayList<Node> arrayList = new ArrayList<Node>();
+		arrayList.add(root);
+		return innerTraverseTreeInWidth2(arrayList,0);
+	}
+	
+	private static List<Node> innerTraverseTreeInWidth2(List<Node> list, int index) {
+		if(index >= list.size()) return list;
+		list.addAll(list.get(index++).getChildren());
+		return innerTraverseTreeInWidth2(list, index);
 	}
 
 	//****************************** MAIN *******************************************************************
@@ -467,8 +494,12 @@ public class Problemas {
 //		for(int i:positives){
 //			System.out.println(i);
 //		}
-		List<Node> traverseTreeInWidth = traverseTreeInDepth(tn1);
-		for(Node n : traverseTreeInWidth){
+//		List<Node> traverseTreeInWidth = traverseTreeInDepth(tn1);
+//		for(Node n : traverseTreeInWidth){
+//			System.out.println(n.getValue());
+//		}
+		List<Node> traverseTreeInWidth2 = traverseTreeInWidth2(tn1);
+		for(Node n : traverseTreeInWidth2){
 			System.out.println(n.getValue());
 		}
 	}
