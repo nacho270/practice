@@ -113,7 +113,14 @@ public class Problemas {
 	}
 	
 	//*********************************************************************************************************
-	
+	/*
+	 					1
+	 		22			23			24
+	 		37			36			35
+	 		38			39
+	 					40
+	 					41
+	*/
 	private static TreeNode createTree() {
 		TreeNode tn1 = new TreeNode();
 		tn1.value=1;
@@ -415,17 +422,21 @@ public class Problemas {
 		 return ret;
 	 }
 	 
-	public static List<Node> traverseTreeInWidth(Node root) {
-		List<Node> res = new ArrayList<Node>();
-		res.add(root);
-		for (int i = 0; i < res.size(); i++){
-			for (Node child : res.get(i).getChildren()){
-				res.add(child);
-			}
-		}
-		return res;
+	public static List<Node> traverseTreeInDepth(Node root) {
+		return innerTransverseInDepth(root, new ArrayList<Node>());
 	}
 	
+
+	private static List<Node> innerTransverseInDepth(Node node, List<Node> list) {
+		list.add(node);
+		return innerTransverseInDepthChildren(node.getChildren(),0,list);
+	}
+
+	private static List<Node> innerTransverseInDepthChildren(List<Node> children, int index, List<Node> list) {
+		if(children == null || children.isEmpty() || index >= children.size()) return list;
+		list = innerTransverseInDepth(children.get(index), list);
+		return innerTransverseInDepthChildren(children, index+1, list);
+	}
 
 	//****************************** MAIN *******************************************************************
 
@@ -456,7 +467,7 @@ public class Problemas {
 //		for(int i:positives){
 //			System.out.println(i);
 //		}
-		List<Node> traverseTreeInWidth = traverseTreeInWidth(tn1);
+		List<Node> traverseTreeInWidth = traverseTreeInDepth(tn1);
 		for(Node n : traverseTreeInWidth){
 			System.out.println(n.getValue());
 		}
