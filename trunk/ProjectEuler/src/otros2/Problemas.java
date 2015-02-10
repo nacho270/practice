@@ -220,7 +220,7 @@ public class Problemas {
 		return n1;
 	}
 	
-	//************************** BETTER PROGRAMMER *************************************************************
+	//************************** BETTER PROGRAMMER ***********************************************************
 	
 	public static int countWords(String s) {
         /*
@@ -401,7 +401,33 @@ public class Problemas {
 		return count;
 	}
 	
-	//****************************** MAIN *************************************************************************
+	 public static int[] retainPositiveNumbers(int[] a) {
+		 int cont = 0;
+		 for(int n:a){
+			 if(n>0) cont++;
+		 }
+		 int[] ret = new int[cont];
+		 int index = 0;
+		 for(int n:a){
+			 if(n>0) ret[index++]=n;
+		 }
+		 Arrays.sort(ret);
+		 return ret;
+	 }
+	 
+	public static List<Node> traverseTreeInWidth(Node root) {
+		List<Node> res = new ArrayList<Node>();
+		res.add(root);
+		for (int i = 0; i < res.size(); i++){
+			for (Node child : res.get(i).getChildren()){
+				res.add(child);
+			}
+		}
+		return res;
+	}
+	
+
+	//****************************** MAIN *******************************************************************
 
 	public static void main(String[] args) {
 		TreeNode tn1 = createTree();
@@ -425,6 +451,14 @@ public class Problemas {
 //		System.out.println(getBinaryRepresentation(8));
 //		System.out.println(isPalindrome("pepe"));
 //		System.out.println(getRequiredNumberOfBits(255));
-		System.out.println(countWaysToJump(4));
+//		System.out.println(countWaysToJump(4));
+//		int[] positives = retainPositiveNumbers(new int[]{0,7,-3,8,-25,0,6,2,1});
+//		for(int i:positives){
+//			System.out.println(i);
+//		}
+		List<Node> traverseTreeInWidth = traverseTreeInWidth(tn1);
+		for(Node n : traverseTreeInWidth){
+			System.out.println(n.getValue());
+		}
 	}
 }
