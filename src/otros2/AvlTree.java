@@ -21,6 +21,12 @@ public class AvlTree<T extends Comparable<? super T>> {
             left = lt;
             right = rt;
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(element) + " left: " + (left != null ? left.element : "") + " - right: "
+                    + (right != null ? right.element : "");
+        }
     }
 
     public AvlNode<T> root;
@@ -58,12 +64,14 @@ public class AvlTree<T extends Comparable<? super T>> {
 
             // si factor de balance es 2 -> rotar
             if (height(t.left) - height(t.right) == 2) {
-                // si el elemento insertado es menor al izquiero del nodo actual -> rotar izquierda
+                System.out.println("height(t.left): " + height(t.left) + " - height(t.right): " + height(t.right) + " = "
+                        + (height(t.left) - height(t.right)));
+                // si el elemento insertado es menor al izquierdo del nodo actual -> rotar izquierda
                 if (x.compareTo(t.left.element) < 0) {
-                    t = rotateLeft(t);
+                    t = rotateLeftChild(t);
                 } else {
-                    // si el elemento insertado es mayor o igual al izquiero del nodo actual -> doble rotar izquierda
-                    t = doubleRotateLeft(t);
+                    // si el elemento insertado es mayor al izquierdo del nodo actual -> doble rotar izquierda
+                    t = doubleRotateLeftChild(t);
                 }
             }
         } else if (x.compareTo(t.element) > 0) {
@@ -72,12 +80,12 @@ public class AvlTree<T extends Comparable<? super T>> {
 
             // si factor de balance es 2 -> rotar
             if (height(t.right) - height(t.left) == 2) {
-                // si el elemento insertado es mayor al dereche del nodo actual -> rotar derecha
+                // si el elemento insertado es mayor al derecho del nodo actual -> rotar derecha
                 if (x.compareTo(t.right.element) > 0) {
-                    t = rotateRight(t);
+                    t = rotateRightChild(t);
                 } else {
-                    // si el elemento insertado es menor o igual al derecho del nodo actual -> doble rotar derecha
-                    t = doubleRorateRight(t);
+                    // si el elemento insertado es menor al derecho del nodo actual -> doble rotar derecha
+                    t = doubleRotateRightChild(t);
                 }
             }
         } else {
@@ -88,7 +96,7 @@ public class AvlTree<T extends Comparable<? super T>> {
         return t;
     }
 
-    protected AvlNode<T> rotateLeft(final AvlNode<T> nodoDesbalanceado) {
+    protected AvlNode<T> rotateLeftChild(final AvlNode<T> nodoDesbalanceado) {
         // rotacion
         final AvlNode<T> nuevaRaiz = nodoDesbalanceado.left;
         nodoDesbalanceado.left = nuevaRaiz.right;
@@ -101,7 +109,7 @@ public class AvlTree<T extends Comparable<? super T>> {
         return nuevaRaiz;
     }
 
-    protected AvlNode<T> rotateRight(final AvlNode<T> nodoDesbalanceado) {
+    protected AvlNode<T> rotateRightChild(final AvlNode<T> nodoDesbalanceado) {
         // rotacion
         final AvlNode<T> nuevaRaiz = nodoDesbalanceado.right;
         nodoDesbalanceado.right = nuevaRaiz.left;
@@ -114,18 +122,18 @@ public class AvlTree<T extends Comparable<? super T>> {
         return nuevaRaiz;
     }
 
-    protected AvlNode<T> doubleRotateLeft(final AvlNode<T> nodoDesbalanceado) {
+    protected AvlNode<T> doubleRotateLeftChild(final AvlNode<T> nodoDesbalanceado) {
         // primero roto a derecha (desbalanceo subarbol)
-        nodoDesbalanceado.left = rotateRight(nodoDesbalanceado.left);
+        nodoDesbalanceado.left = rotateRightChild(nodoDesbalanceado.left);
         // roto a izquierda
-        return rotateLeft(nodoDesbalanceado);
+        return rotateLeftChild(nodoDesbalanceado);
     }
 
-    protected AvlNode<T> doubleRorateRight(final AvlNode<T> nodoDesbalanceado) {
+    protected AvlNode<T> doubleRotateRightChild(final AvlNode<T> nodoDesbalanceado) {
         // primero roto a izquieda (desbalanceo subarbol)
-        nodoDesbalanceado.right = rotateLeft(nodoDesbalanceado.right);
+        nodoDesbalanceado.right = rotateLeftChild(nodoDesbalanceado.right);
         // roto a derecha
-        return rotateRight(nodoDesbalanceado);
+        return rotateRightChild(nodoDesbalanceado);
     }
 
     public String inDepthTraversal() {
@@ -138,20 +146,18 @@ public class AvlTree<T extends Comparable<? super T>> {
         if (t == null) {
             return;
         }
-        str.append(t.element.toString());
-        str.append(sep);
+        str.append(t.element.toString()).append(sep);
         inDepthTraversal(t.left, str, sep);
         inDepthTraversal(t.right, str, sep);
     }
 
     public String inBreathTraversalQueue() {
-        final Queue<AvlNode<T>> queue = new LinkedList<>();
         final StringBuilder str = new StringBuilder();
+        final Queue<AvlNode<T>> queue = new LinkedList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
             final AvlNode<T> tempNode = queue.poll();
-            str.append(tempNode.element.toString());
-            str.append(" ");
+            str.append(tempNode.element.toString()).append(" ");
             if (tempNode.left != null) {
                 queue.add(tempNode.left);
             }
@@ -164,7 +170,7 @@ public class AvlTree<T extends Comparable<? super T>> {
 
     public String inBreathTraversal() {
         final StringBuilder str = new StringBuilder();
-        final int h = height(root);
+        final int h = recursiveHeight(root);
         for (int i = 1; i <= h; i++) {
             inBreathTraversal(root, i, str, " ");
         }
@@ -175,8 +181,7 @@ public class AvlTree<T extends Comparable<? super T>> {
         if (t == null) {
             return;
         } else if (level == 1) {
-            str.append(t.element.toString());
-            str.append(sep);
+            str.append(t.element.toString()).append(sep);
         } else {
             inBreathTraversal(t.left, level - 1, str, sep);
             inBreathTraversal(t.right, level - 1, str, sep);
@@ -260,9 +265,9 @@ public class AvlTree<T extends Comparable<? super T>> {
                 final int leftHeight = t.right.left != null ? t.right.left.height : 0;
 
                 if (rightHeight >= leftHeight) {
-                    t = rotateLeft(t);
+                    t = rotateLeftChild(t);
                 } else {
-                    t = doubleRorateRight(t);
+                    t = doubleRotateRightChild(t);
                 }
             }
         } else if (x.compareTo(t.element) > 0) {
@@ -272,9 +277,9 @@ public class AvlTree<T extends Comparable<? super T>> {
                 final int leftHeight = t.left.left != null ? t.left.left.height : 0;
                 final int rightHeight = t.left.right != null ? t.left.right.height : 0;
                 if (leftHeight >= rightHeight) {
-                    t = rotateRight(t);
+                    t = rotateRightChild(t);
                 } else {
-                    t = doubleRotateLeft(t);
+                    t = doubleRotateLeftChild(t);
                 }
             }
         }
@@ -291,9 +296,9 @@ public class AvlTree<T extends Comparable<? super T>> {
                 final int leftHeight = t.right.left != null ? t.right.left.height : 0;
 
                 if (rightHeight >= leftHeight) {
-                    t = rotateLeft(t);
+                    t = rotateLeftChild(t);
                 } else {
-                    t = doubleRorateRight(t);
+                    t = doubleRotateRightChild(t);
                 }
             }
         } else {
@@ -393,6 +398,8 @@ public class AvlTree<T extends Comparable<? super T>> {
         t.insert(new Integer(20));
         t.insert(new Integer(25));
         t.insert(new Integer(10));
+
+        System.out.println("");
 
         System.out.println("In depth Traversal:");
         System.out.println(t.inDepthTraversal());
